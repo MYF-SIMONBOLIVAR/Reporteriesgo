@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Participación y Reporte de Factores de Riesgo</title>
+<style>
+  body {font-family: Arial, sans-serif; background: #f5f5f5; margin: 20px;}
+  form {background: #fff; padding: 20px; border-radius: 8px; max-width: 800px; margin: auto;}
+  h1, h2 {color: #003366;}
+  .modulo {border: 1px solid #ccc; padding: 15px; margin-bottom: 15px; border-radius: 8px; background: #fafafa;}
+  textarea {width: 100%; height: 80px; margin-top: 10px; display: none;}
+  .campo {margin-bottom: 10px;}
+  label {display: block; margin: 4px 0;}
+  .descripcion-label {font-weight: bold; margin-top: 10px;}
+  .submit-btn {background: #003366; color: white; padding: 10px 20px; border: none; border-radius: 5px;}
+</style>
+</head>
+<body>
+
+<form id="riesgoForm">
+  <h1>PARTICIPACIÓN Y REPORTE DE LOS FACTORES DE RIESGO EN LAS ÁREAS DE TRABAJO</h1>
+
+  <!-- Sección de Identificación -->
+  <div class="modulo">
+    <h2>1. Identificación</h2>
+    <div class="campo">
+      <label for="nombres">NOMBRES Y APELLIDOS *</label>
+      <input type="text" id="nombres" name="nombres" required>
+    </div>
+    <div class="campo">
+      <label for="area">ÁREA *</label>
+      <select id="area" name="area" required>
+        <option value="">Seleccione...</option>
+        <option>Administrativa</option>
+        <option>Producción</option>
+        <option>Mantenimiento</option>
+        <option>Logística</option>
+        <option>Calidad</option>
+        <option>Otra</option>
+      </select>
+    </div>
+  </div>
+
+  <!-- Función JS repetible -->
+  <script>
+    function toggleDescripcion(moduloId) {
+      const checkboxes = document.querySelectorAll(`#${moduloId} input[type='checkbox']`);
+      const textarea = document.querySelector(`#${moduloId} textarea`);
+      let algunoMarcado = Array.from(checkboxes).some(c => c.checked);
+      textarea.style.display = algunoMarcado ? 'block' : 'none';
+      textarea.required = algunoMarcado;
+    }
+  </script>
+
+  <!-- Módulo A -->
+  <div class="modulo" id="modA">
+    <h2>FACTOR DE RIESGO BIOLÓGICO</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Virus</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Bacterias</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Hongos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Picaduras</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Mordeduras</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Fluidos o excrementos</label>
+    <label class="descripcion-label">Descripción del riesgo:</label>
+    <textarea name="desc_biologico" placeholder="Describa el riesgo biológico"></textarea>
+  </div>
+
+  <!-- Módulo B -->
+  <div class="modulo" id="modB">
+    <h2>FACTOR DE RIESGO FÍSICO</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Ruido</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Iluminación</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Vibración</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Temperaturas extremas (Calor y frio)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Radiaciones no ionizantes (Rayos V)</label>
+    <label class="descripcion-label">Descripción del riesgo:</label>
+    <textarea name="desc_fisico" placeholder="Describa el riesgo físico"></textarea>
+  </div>
+
+  <!-- Módulo C -->
+  <div class="modulo" id="modC">
+    <h2>FACTOR DE RIESGO BIOMECÁNICO</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Postura prolongada (Sentado - de pie)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Postura forzada ( Hiperextensiones  por encima de hombro o debajo altura de rodillas)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Esfuerzo (posturas incomodas y prolongadas)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Movimiento repetitivo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Manipulación de cargas</label>
+    <label class="descripcion-label">Descripción del riesgo:</label>
+    <textarea name="desc_biomecanico" placeholder="Describa el riesgo biomecánico"></textarea>
+  </div>
+
+  <!-- Módulo D -->
+  <div class="modulo" id="modD">
+    <h2>FACTOR DE RIESGO QUÍMICO</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Polvos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Líquidos (Nieblas y rocíos)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Gases y vapores</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Humos metálicos/no metálicos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Material particulado</label>
+    <label class="descripcion-label">Descripción del riesgo:</label>
+    <textarea name="desc_quimico" placeholder="Describa el riesgo químico..."></textarea>
+  </div>
+
+  <!-- Módulo E -->
+  <div class="modulo" id="modE">
+    <h2>FACTOR DE RIESGO CONDICIONES DE SEGURIDAD</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Mecánico</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Eléctrico</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Locativo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Orden y aseo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Tecnológico (incendio, explosión)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Desplome estructural</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Accidentes de tránsito</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Públicos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Trabajo en alturas</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Espacios confinados</label>
+    <label class="descripcion-label">Descripción del riesgo:</label>
+    <textarea name="desc_seguridad" placeholder="Describa el riesgo de seguridad"></textarea>
+  </div>
+
+  <!-- Módulo F -->
+  <div class="modulo" id="modF">
+    <h2>FACTOR DE RIESGO FENÓMENOS NATURALES</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Sismo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Terremoto</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Vendaval</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Inundación</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Derrumbe</label>
+    <label class="descripcion-label">Descripción del riesgo:</label>
+    <textarea name="desc_fenomeno" placeholder="Describa el riesgo natural"></textarea>
+  </div>
+
+  <button type="submit" class="submit-btn">Enviar reporte</button>
+</form>
+
+<script>
+  document.getElementById("riesgoForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    const fecha = new Date().toLocaleString();
+    alert("Formulario enviado correctamente.\nRegistro de fecha y hora: " + fecha);
+    // Aquí podrías agregar una función para guardar datos en BD o exportar a JSON
+  });
+</script>
+
+</body>
+</html>

@@ -182,7 +182,7 @@
     <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
     <path class="checkmark__check" fill="none" d="M14 27l7 7 16-16"/>
   </svg>
-  <div class="mensaje-exito" id="mensaje">Enviando respuestas</div>
+  <div class="mensaje-exito" id="mensaje">Enviando datos...</div>
 </div>
 
 <form id="riesgoForm">
@@ -190,9 +190,22 @@
     <img src="logo.png" alt="Logo de la empresa">
   </div>
   <h1>PARTICIPACIÓN Y REPORTE DE LOS FACTORES DE RIESGO EN LAS ÁREAS DE TRABAJO</h1>
-  <h3>Todas las preguntas son obligatorias</h3>
+  <h3>Instrucciones:
+Este formulario tiene como objetivo identificar los riesgos presentes en tu área de trabajo. Tu participación es importante para mantener actualizada la matriz de peligros de la empresa.
+
+Debes:
+
+Revisar los factores de riesgo listados en cada sección (biológicos, físicos, biomecánicos, químicos, condiciones de seguridad y fenómenos naturales).
+
+Marcar los riesgos que observes en tu área. Solo selecciona los que realmente consideres presentes.
+
+Describir brevemente cada riesgo marcado, explicando qué situaciones lo generan y, si es posible, qué medidas podrían prevenirlo.
+
+Completar tus datos personales y tu área de trabajo para que podamos registrar correctamente tu reporte.
+
+Tu aporte ayuda a proteger a todos los colaboradores y a garantizar un ambiente laboral seguro.</h3>
   <div class="modulo">
-    <h2>IDENTIFICACIÓN *</h2>
+    <h2>IDENTIFICACION *</h2>
     <div class="campo">
       <label for="nombres">NOMBRES Y APELLIDOS *</label>
       <input type="text" id="nombres" name="nombres" required>
@@ -239,7 +252,7 @@
     <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Mordeduras</label>
     <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Fluidos o excrementos</label>
     
-    <textarea name="desc_biologico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+    <textarea name="desc_biologico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" ></textarea>
   </div>
 
   <!-- Módulo B -->
@@ -251,7 +264,7 @@
     <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Temperaturas extremas (Calor y frío)</label>
     <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Radiaciones no ionizantes (Rayos V)</label>
 
-    <textarea name="desc_fisico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+    <textarea name="desc_fisico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" ></textarea>
   </div>
 
   <!-- Módulo C -->
@@ -263,7 +276,7 @@
     <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Movimiento repetitivo</label>
     <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Manipulación de cargas</label>
     
-    <textarea name="desc_biomecanico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+    <textarea name="desc_biomecanico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" ></textarea>
   </div>
 
   <!-- Módulo D -->
@@ -275,7 +288,7 @@
     <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Humos metálicos/no metálicos</label>
     <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Material particulado</label>
 
-    <textarea name="desc_quimico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+    <textarea name="desc_quimico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" ></textarea>
   </div>
 
   <!-- Módulo E -->
@@ -292,7 +305,7 @@
     <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Trabajo en alturas</label>
     <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Espacios confinados</label>
 
-    <textarea name="desc_seguridad" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+    <textarea name="desc_seguridad" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" ></textarea>
   </div>
 
   <!-- Módulo F -->
@@ -304,7 +317,7 @@
     <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Inundación</label>
     <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Derrumbe</label>
 
-    <textarea name="desc_fenomeno" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+    <textarea name="desc_fenomeno" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" ></textarea>
   </div>
 
 
@@ -322,20 +335,6 @@ document.getElementById("riesgoForm").addEventListener("submit", function(e) {
     return;
   }
 
-  const modulos = ["modA","modB","modC","modD","modE","modF"];
-  for (let id of modulos) {
-    const mod = document.getElementById(id);
-    const checks = mod.querySelectorAll("input[type='checkbox']:checked");
-    const txt = mod.querySelector("textarea").value.trim();
-    if (checks.length === 0) {
-      alert(`Debes seleccionar al menos un factor en "${mod.querySelector('h2').textContent}".`);
-      return;
-    }
-    if (!txt) {
-      alert(`Debes llenar la descripción en "${mod.querySelector('h2').textContent}".`);
-      return;
-    }
-  }
 
   const overlay = document.getElementById("overlay");
   const spinner = document.getElementById("spinner");
@@ -399,4 +398,5 @@ document.getElementById("riesgoForm").addEventListener("submit", function(e) {
 
 </body>
 </html>
+
 

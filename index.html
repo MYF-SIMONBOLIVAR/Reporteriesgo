@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Participación y Reporte de Factores de Riesgo</title>
+
+<style>
+  /* Tipografía base */
+  body {
+    font-family: "Futura", "Futura PT", "Century Gothic", Arial, sans-serif;
+    background: #003366;
+    margin: 20px;
+  }
+
+  form {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: auto;
+  }
+
+  .logo-container {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .logo-container img {
+    max-width: 200px;
+    height: auto;
+  }
+
+  h1, h2 {
+    color: #19287F;
+    font-family: "Futura", "Futura PT", "Century Gothic", Arial, sans-serif;
+  }
+
+  h1 { text-align: center; }
+
+  .modulo {
+    border: 1px solid #FFD400;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    background: #FFD400;
+  }
+
+  textarea {
+    width: 100%;
+    height: 80px;
+    margin-top: 10px;
+    display: none;
+  }
+
+  .campo { margin-bottom: 10px; }
+  label { display: block; margin: 4px 0; }
+  .descripcion-label { font-weight: bold; margin-top: 10px; }
+
+  .submit-btn {
+    background: #19287F;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+  }
+
+  .submit-btn:hover {
+    background: #FFD400;
+    color: black;
+    cursor: pointer;
+  }
+
+  input[type="text"], select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 16px;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border-color: #19287F;
+    box-shadow: 0 0 5px rgba(25, 40, 127, 0.2);
+  }
+
+  /* Overlay general */
+  .overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    flex-direction: column;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .overlay.show {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  /* Spinner de carga */
+  .spinner {
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #FFD400;
+    border-radius: 50%;
+    width: 80px;
+    height: 80px;
+    animation: spin 1s linear infinite;
+  }
+
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  /* Checkmark */
+  .checkmark {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: none;
+    stroke-width: 3;
+    stroke: #4CAF50;
+    stroke-miterlimit: 10;
+    margin: 10px auto;
+    box-shadow: inset 0px 0px 0px #4CAF50;
+    animation: fill .4s ease-in-out .4s forwards, scale .3s ease-in-out .9s both;
+  }
+
+  .checkmark__circle {
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    stroke-width: 3;
+    stroke-miterlimit: 10;
+    stroke: #4CAF50;
+    fill: none;
+    animation: stroke 0.6s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+  }
+
+  .checkmark__check {
+    transform-origin: 50% 50%;
+    stroke-dasharray: 48;
+    stroke-dashoffset: 48;
+    animation: stroke 0.3s cubic-bezier(0.65, 0, 0.45, 1) 0.6s forwards;
+  }
+
+  @keyframes stroke { 100% { stroke-dashoffset: 0; } }
+  @keyframes scale {
+    0%, 100% { transform: none; }
+    50% { transform: scale3d(1.1, 1.1, 1); }
+  }
+  @keyframes fill {
+    100% { box-shadow: inset 0px 0px 0px 30px #4CAF50; }
+  }
+
+  .mensaje-exito {
+    color: #fff;
+    font-size: 20px;
+    margin-top: 15px;
+    text-align: center;
+    font-family: "Futura", "Futura PT", "Century Gothic", Arial, sans-serif;
+  }
+</style>
+</head>
+<body>
+
+<!-- Overlay de carga / éxito -->
+<div class="overlay" id="overlay">
+  <div class="spinner" id="spinner"></div>
+  <svg class="checkmark" id="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+    <circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/>
+    <path class="checkmark__check" fill="none" d="M14 27l7 7 16-16"/>
+  </svg>
+  <div class="mensaje-exito" id="mensaje">Enviando datos...</div>
+</div>
+
+<form id="riesgoForm">
+  <div class="logo-container">
+    <img src="logo.png" alt="Logo de la empresa">
+  </div>
+  <h1>PARTICIPACIÓN Y REPORTE DE LOS FACTORES DE RIESGO EN LAS ÁREAS DE TRABAJO</h1>
+  <h3>Todas las preguntas son obligatorias</h3>
+  <div class="modulo">
+    <h2>IDENTIFICACION *</h2>
+    <div class="campo">
+      <label for="nombres">NOMBRES Y APELLIDOS *</label>
+      <input type="text" id="nombres" name="nombres" required>
+    </div>
+    <div class="campo">
+      <label for="area">ÁREA *</label>
+      <select id="area" name="area" required>
+        <option value="">Seleccione...</option>
+        <option>Gerencia</option>
+        <option>Ventas</option>
+        <option>Compras</option>
+        <option>Logística</option>
+        <option>Recursos Humanos</option>
+        <option>Marketing</option>
+        <option>SST</option>
+        <option>TI</option>
+        <option>Contabilidad</option>
+        <option>Jurídica</option>
+        <option>Cartera</option>
+        <option>Despachos</option>
+        <option>Recepción</option>
+        <option>Facturación</option>
+      </select>
+    </div>
+  </div>
+
+  <script>
+    function toggleDescripcion(moduloId) {
+      const checkboxes = document.querySelectorAll(`#${moduloId} input[type='checkbox']`);
+      const textarea = document.querySelector(`#${moduloId} textarea`);
+      let algunoMarcado = Array.from(checkboxes).some(c => c.checked);
+      textarea.style.display = algunoMarcado ? 'block' : 'none';
+      textarea.required = algunoMarcado;
+    }
+  </script>
+
+    <!-- Módulo A -->
+  <div class="modulo" id="modA">
+    <h2>FACTOR DE RIESGO BIOLÓGICO *</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Virus</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Bacterias</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Hongos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Picaduras</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Mordeduras</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modA')"> Fluidos o excrementos</label>
+    
+    <textarea name="desc_biologico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+  </div>
+
+  <!-- Módulo B -->
+  <div class="modulo" id="modB">
+    <h2>FACTOR DE RIESGO FÍSICO *</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Ruido</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Iluminación</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Vibración</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Temperaturas extremas (Calor y frío)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modB')"> Radiaciones no ionizantes (Rayos V)</label>
+
+    <textarea name="desc_fisico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+  </div>
+
+  <!-- Módulo C -->
+  <div class="modulo" id="modC">
+    <h2>FACTOR DE RIESGO BIOMECÁNICO *</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Postura prolongada (Sentado - de pie)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Postura forzada (Hiperextensiones por encima de hombro o debajo altura de rodillas)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Esfuerzo (posturas incómodas y prolongadas)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Movimiento repetitivo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modC')"> Manipulación de cargas</label>
+    
+    <textarea name="desc_biomecanico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+  </div>
+
+  <!-- Módulo D -->
+  <div class="modulo" id="modD">
+    <h2>FACTOR DE RIESGO QUÍMICO *</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Polvos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Líquidos (Nieblas y rocíos)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Gases y vapores</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Humos metálicos/no metálicos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modD')"> Material particulado</label>
+
+    <textarea name="desc_quimico" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+  </div>
+
+  <!-- Módulo E -->
+  <div class="modulo" id="modE">
+    <h2>FACTOR DE RIESGO CONDICIONES DE SEGURIDAD *</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Mecánico</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Eléctrico</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Locativo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Orden y aseo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Tecnológico (incendio, explosión)</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Desplome estructural</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Accidentes de tránsito</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Públicos</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Trabajo en alturas</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modE')"> Espacios confinados</label>
+
+    <textarea name="desc_seguridad" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+  </div>
+
+  <!-- Módulo F -->
+  <div class="modulo" id="modF">
+    <h2>FACTOR DE RIESGO FENÓMENOS NATURALES *</h2>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Sismo</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Terremoto</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Vendaval</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Inundación</label>
+    <label><input type="checkbox" onchange="toggleDescripcion('modF')"> Derrumbe</label>
+
+    <textarea name="desc_fenomeno" placeholder="¿Qué factores generan el riesgo y qué estrategias podrían emplearse para prevenirlo?" required></textarea>
+  </div>
+
+
+  <button type="submit" class="submit-btn">Enviar reporte</button>
+</form>
+
+<script>
+document.getElementById("riesgoForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+
+  const nombres = document.getElementById("nombres").value.trim();
+  const area = document.getElementById("area").value;
+  if (!nombres || !area) {
+    alert("Por favor completa tu nombre y selecciona el área.");
+    return;
+  }
+
+  const modulos = ["modA","modB","modC","modD","modE","modF"];
+  for (let id of modulos) {
+    const mod = document.getElementById(id);
+    const checks = mod.querySelectorAll("input[type='checkbox']:checked");
+    const txt = mod.querySelector("textarea").value.trim();
+    if (checks.length === 0) {
+      alert(`Debes seleccionar al menos un factor en "${mod.querySelector('h2').textContent}".`);
+      return;
+    }
+    if (!txt) {
+      alert(`Debes llenar la descripción en "${mod.querySelector('h2').textContent}".`);
+      return;
+    }
+  }
+
+  const overlay = document.getElementById("overlay");
+  const spinner = document.getElementById("spinner");
+  const checkmark = document.getElementById("checkmark");
+  const mensaje = document.getElementById("mensaje");
+
+
+  // Mostrar overlay con spinner
+  overlay.classList.add("show");
+  spinner.style.display = "block";
+  checkmark.style.display = "none";
+  mensaje.textContent = "Enviando respuestas...";
+
+  function getCheckedLabels(modId) {
+    const checks = document.querySelectorAll(`#${modId} input[type='checkbox']:checked`);
+    return Array.from(checks).map(c => c.parentNode.textContent.trim()).join(", ");
+  }
+
+  const data = {
+    nombres: document.getElementById("nombres").value,
+    area: document.getElementById("area").value,
+    factor_biologico: getCheckedLabels("modA"),
+    desc_biologico: document.querySelector("[name='desc_biologico']").value,
+    factor_fisico: getCheckedLabels("modB"),
+    desc_fisico: document.querySelector("[name='desc_fisico']").value,
+    factor_biomecanico: getCheckedLabels("modC"),
+    desc_biomecanico: document.querySelector("[name='desc_biomecanico']").value,
+    factor_quimico: getCheckedLabels("modD"),
+    desc_quimico: document.querySelector("[name='desc_quimico']").value,
+    factor_seguridad: getCheckedLabels("modE"),
+    desc_seguridad: document.querySelector("[name='desc_seguridad']").value,
+    factor_fenomeno: getCheckedLabels("modF"),
+    desc_fenomeno: document.querySelector("[name='desc_fenomeno']").value
+    
+  };
+
+  const url = "https://script.google.com/macros/s/AKfycbxoB_nBaCFtMfcEJM31pxY3Vpw0sOoO2M0bD1qoqeqbPb3Zgtp92LO2k7fe20TSjRjHbA/exec";
+
+  fetch(url, {
+    method: "POST",
+    mode: "no-cors",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  })
+  .then(() => {
+    spinner.style.display = "none";
+    checkmark.style.display = "block";
+    mensaje.textContent = "¡Formulario enviado correctamente!";
+
+    setTimeout(() => {
+      overlay.classList.remove("show");
+      document.getElementById("riesgoForm").reset();
+    }, 2500);
+  })
+  .catch(err => {
+    overlay.classList.remove("show");
+    alert("❌ Error al enviar: " + err.message);
+  });
+});
+</script>
+
+</body>
+</html>
